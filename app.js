@@ -2,7 +2,15 @@ const express = require("express");
 app = express();
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const colors = require('colors')
+const colors = require("colors");
+const bodyParser = require("body-parser");
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
 //load env
 dotenv.config({ path: "./config/config.env" });
 //Connect to DB
@@ -24,7 +32,9 @@ app.use("/api/v1/bootcamps", bootcampsRoutes);
 //Spin up server
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
-  console.log(`server running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue);
+  console.log(
+    `server running in ${process.env.NODE_ENV} mode on port ${PORT}`.blue
+  );
 });
 
 //Handle unhandle promise rejections
