@@ -1,4 +1,4 @@
-// @desc    Get all Bootcamps
+// @desc     Get all Bootcamps
 // @Route    GET /api/v1/bootcamps
 // @Access   Public
 
