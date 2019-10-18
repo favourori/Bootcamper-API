@@ -28,3 +28,17 @@ exports.createBootcamp = async (req, res) => {
     res.status(400).send(err.message)
   }
 };
+
+
+// @desc     get a single   Bootcamp
+// @Route    POST /api/v1/bootcamps/:id
+// @Access   Public
+
+exports.getBootcamp = async (req, res) => {
+  try {
+   
+
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+};
