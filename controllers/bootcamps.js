@@ -59,25 +59,24 @@ exports.updateBootcamp = async (req, res) => {
       return res.status(400).send({ success: false });
     }
 
-    res.status(200).send({ sucess: true, data: bootcamp });
+    res.status(200).send({ success: true, data: bootcamp });
   } catch (err) {
     res.status(400).send({ success: false });
   }
 };
-
 
 // @desc     Delete a single   Bootcamp
 // @Route    DELETE /api/v1/bootcamps/:id
 // @Access   Private
 exports.deleteBootcamp = async (req, res) => {
   try {
-  
+    const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
 
     if (!bootcamp) {
       return res.status(400).send({ success: false });
     }
 
-    res.status(200).send({ sucess: true, data: bootcamp });
+    res.status(200).send({ success: true, data: {} });
   } catch (err) {
     res.status(400).send({ success: false });
   }
