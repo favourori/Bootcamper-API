@@ -16,16 +16,16 @@ exports.getBootcamps = async (req, res) => {
   }
 };
 
+
 // @desc     Create new  Bootcamps
 // @Route    POST /api/v1/bootcamps
 // @Access   Private
-
 exports.createBootcamp = async (req, res) => {
   try {
     const newBootcamp = await Bootcamp.create(req.body);
     res.status(201).send({ success: true, data: newBootcamp });
   } catch (err) {
-    res.status(400).send(err.message)
+    res.status(400).send(err.message);
   }
 };
 
@@ -33,12 +33,16 @@ exports.createBootcamp = async (req, res) => {
 // @desc     get a single   Bootcamp
 // @Route    POST /api/v1/bootcamps/:id
 // @Access   Public
-
 exports.getBootcamp = async (req, res) => {
   try {
-   
+    const bootcamp = await Bootcamp.findById(req.params.id);
 
+    if (!bootcamp) {
+      return res.status(400).send({ success: false });
+    }
+
+    res.status(200).send({ success: true, data: bootcamp });
   } catch (err) {
-    res.status(400).send(err.message)
+    res.status(400).send({ success: false });
   }
 };
