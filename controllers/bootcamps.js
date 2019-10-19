@@ -32,7 +32,7 @@ exports.createBootcamp = async (req, res) => {
 // @desc     get a single   Bootcamp
 // @Route    POST /api/v1/bootcamps/:id
 // @Access   Public
-exports.getBootcamp = async (req, res) => {
+exports.getBootcamp = async (req, res, next) => {
   try {
     const bootcamp = await Bootcamp.findById(req.params.id);
 
@@ -42,7 +42,7 @@ exports.getBootcamp = async (req, res) => {
 
     res.status(200).send({ success: true, data: bootcamp });
   } catch (err) {
-    res.status(400).send({ success: false });
+    next(err);
   }
 };
 
