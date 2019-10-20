@@ -1,6 +1,6 @@
 //imoport Bootcamp model
 const Bootcamp = require("../models/Bootcamp");
-
+const geoCoder = require("../utils/geocoder");
 const ErrorResponse = require("../utils/errorResponse");
 // @desc     Get all Bootcamps
 // @Route    GET /api/v1/bootcamps
@@ -31,7 +31,7 @@ exports.createBootcamp = async (req, res) => {
 };
 
 // @desc     get a single   Bootcamp
-// @Route    POST /api/v1/bootcamps/:id
+// @Route    GET /api/v1/bootcamps/:id
 // @Access   Public
 exports.getBootcamp = async (req, res, next) => {
   try {
@@ -89,15 +89,29 @@ exports.deleteBootcamp = async (req, res) => {
   }
 };
 
-
 // @desc     get bootcamps within a given radius
 // @Route    GET /api/v1/bootcamps/radius/:zipcode/:distance
 // @Access   Public
-exports.getBootcamp = async (req, res, next) => {
+exports.getBootcampsInRadius = async (req, res, next) => {
   try {
-    
-  
+    //get params
+    const { zipcode, distance } = req.params;
+    //get Longitude & Lat
 
+    const loc = await geoCoder.geocode(zipcode);
+    const lat = loc[0].latitude;
+    const lng = loc[0].longitude;
+
+    //cal radius
+    const radius = distance / 3963;
+    const bootcamps = await Bootcamp.find({
+      location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }
+    });
+    res.status(200).send({
+      success: true,
+      count: bootcamps.length,
+      data: bootcamps
+    });
   } catch (err) {
     next(err);
   }
