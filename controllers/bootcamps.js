@@ -88,3 +88,17 @@ exports.deleteBootcamp = async (req, res) => {
     next(err);
   }
 };
+
+
+// @desc     get bootcamps within a given radius
+// @Route    GET /api/v1/bootcamps/radius/:zipcode/:distance
+// @Access   Public
+exports.getBootcamp = async (req, res, next) => {
+  try {
+    
+  
+
+  } catch (err) {
+    next(err);
+  }
+};
