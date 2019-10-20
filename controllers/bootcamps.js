@@ -1,6 +1,7 @@
 //imoport Bootcamp model
 const Bootcamp = require("../models/Bootcamp");
 
+const ErrorResponse = require("../utils/errorResponse");
 // @desc     Get all Bootcamps
 // @Route    GET /api/v1/bootcamps
 // @Access   Public
@@ -25,7 +26,7 @@ exports.createBootcamp = async (req, res) => {
     const newBootcamp = await Bootcamp.create(req.body);
     res.status(201).send({ success: true, data: newBootcamp });
   } catch (err) {
-    res.status(400).send(err.message);
+    next(err);
   }
 };
 
@@ -37,7 +38,12 @@ exports.getBootcamp = async (req, res, next) => {
     const bootcamp = await Bootcamp.findById(req.params.id);
 
     if (!bootcamp) {
-      return res.status(400).send({ success: false });
+      return next(
+        new ErrorResponse(
+          `Bootcamp with the Id of ${req.params.id} not found`,
+          404
+        )
+      );
     }
 
     res.status(200).send({ success: true, data: bootcamp });
@@ -62,7 +68,7 @@ exports.updateBootcamp = async (req, res) => {
 
     res.status(200).send({ success: true, data: bootcamp });
   } catch (err) {
-    res.status(400).send({ success: false });
+    next(err);
   }
 };
 
@@ -79,6 +85,6 @@ exports.deleteBootcamp = async (req, res) => {
 
     res.status(200).send({ success: true, data: {} });
   } catch (err) {
-    res.status(400).send({ success: false });
+    next(err);
   }
 };

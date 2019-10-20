@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
 const bodyParser = require("body-parser");
+const errorHandler = require("./middleware/error");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,8 +27,11 @@ if (process.env.NODE_ENV === "development") {
 //import Routes
 const bootcampsRoutes = require("./routes/bootcamps");
 
+
 //Mount routes
 app.use("/api/v1/bootcamps", bootcampsRoutes);
+//error middleware
+app.use(errorHandler);
 
 //Spin up server
 const PORT = process.env.PORT || 3000;
