@@ -127,6 +127,7 @@ exports.getBootcampsInRadius = async (req, res, next) => {
   }
 };
 
+//Using the Courses Model in the Bootcamops Controller to get all courses associated with a Bootcamp
 exports.getBootcampCourses = async (req, res, next) => {
   try {
     const courses = await Course.find({ bootcamp: req.params.id });

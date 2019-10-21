@@ -8,9 +8,10 @@ const ErrorResponse = require("../utils/errorResponse");
 // @Access   Public
 exports.getCourses = async (req, res, next) => {
   try {
-  
-
-    const courses = await Course.find();
+    const courses = await Course.find().populate({
+      path: "bootcamp",
+      select: "name description"
+    });
     res.status(200).send({
       success: true,
       count: courses.length,
@@ -20,3 +21,8 @@ exports.getCourses = async (req, res, next) => {
     next(err);
   }
 };
+
+//Tasks - Create
+//create Get course by ID
+//Create Edit course
+//create Delete course By ID
