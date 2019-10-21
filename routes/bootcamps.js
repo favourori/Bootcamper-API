@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+
+
+
+
 //import controller
 const {
   getBootcamps,
@@ -8,8 +12,10 @@ const {
   getBootcamp,
   updateBootcamp,
   deleteBootcamp,
-  getBootcampsInRadius
+  getBootcampsInRadius,
+  getBootcampCourses
 } = require("../controllers/bootcamps");
+
 
 //router.get("/", getBootcamps); another Method
 router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius)
@@ -24,7 +30,7 @@ router
   .put(updateBootcamp)
   .delete(deleteBootcamp);
 
-
+router.route("/:id/courses").get(getBootcampCourses)
  
 //export router
 module.exports = router;

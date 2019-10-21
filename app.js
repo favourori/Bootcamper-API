@@ -26,10 +26,11 @@ if (process.env.NODE_ENV === "development") {
 
 //import Routes
 const bootcampsRoutes = require("./routes/bootcamps");
-
+const courseRoutes = require("./routes/courses");
 
 //Mount routes
 app.use("/api/v1/bootcamps", bootcampsRoutes);
+app.use("/api/v1/courses", courseRoutes);
 //error middleware
 app.use(errorHandler);
 

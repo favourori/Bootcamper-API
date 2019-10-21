@@ -1,7 +1,9 @@
 //imoport Bootcamp model
 const Bootcamp = require("../models/Bootcamp");
+const Course = require("../models/Course");
 const geoCoder = require("../utils/geocoder");
 const ErrorResponse = require("../utils/errorResponse");
+
 // @desc     Get all Bootcamps
 // @Route    GET /api/v1/bootcamps
 // @Access   Public
@@ -119,6 +121,19 @@ exports.getBootcampsInRadius = async (req, res, next) => {
       success: true,
       count: bootcamps.length,
       data: bootcamps
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getBootcampCourses = async (req, res, next) => {
+  try {
+    const courses = await Course.find({ bootcamp: req.params.id });
+    res.status(200).send({
+      success: true,
+      count: courses.length,
+      data: courses
     });
   } catch (err) {
     next(err);
