@@ -5,12 +5,14 @@ const morgan = require("morgan");
 const colors = require("colors");
 const bodyParser = require("body-parser");
 const errorHandler = require("./middleware/error");
+const fileupload = require('express-fileupload')
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
 // parse application/json
 app.use(bodyParser.json());
+
+app.use(fileupload())
 
 //load env
 dotenv.config({ path: "./config/config.env" });

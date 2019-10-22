@@ -13,7 +13,8 @@ const {
   updateBootcamp,
   deleteBootcamp,
   getBootcampsInRadius,
-  getBootcampCourses
+  getBootcampCourses,
+  bootcampPhotoUpload
 } = require("../controllers/bootcamps");
 
 
@@ -31,6 +32,8 @@ router
   .delete(deleteBootcamp);
 
 router.route("/:id/courses").get(getBootcampCourses)
+
+router.route('/:id/photo').put(bootcampPhotoUpload)
  
 //export router
 module.exports = router;

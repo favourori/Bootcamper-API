@@ -15,7 +15,7 @@ exports.getBootcamps = async (req, res) => {
       /\b(gt| gte|lt| lte|in)\b/g,
       match => `$${match}`
     );
-    query = Bootcamp.find(JSON.parse(queryStr));
+    query = Bootcamp.find(JSON.parse(queryStr)).populate("courses");
 
     const bootcamps = await query;
     res.status(200).send({
@@ -45,7 +45,7 @@ exports.createBootcamp = async (req, res) => {
 // @Access   Public
 exports.getBootcamp = async (req, res, next) => {
   try {
-    const bootcamp = await Bootcamp.findById(req.params.id);
+    const bootcamp = await Bootcamp.findById(req.params.id).populate("courses");
 
     if (!bootcamp) {
       return next(
@@ -87,12 +87,12 @@ exports.updateBootcamp = async (req, res) => {
 // @Access   Private
 exports.deleteBootcamp = async (req, res) => {
   try {
-    const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+    const bootcamp = await Bootcamp.findById(req.params.id);
 
     if (!bootcamp) {
       return res.status(400).send({ success: false });
     }
-
+    bootcamp.remove();
     res.status(200).send({ success: true, data: {} });
   } catch (err) {
     next(err);
@@ -136,6 +136,37 @@ exports.getBootcampCourses = async (req, res, next) => {
       count: courses.length,
       data: courses
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc     Uploading photo for a bootcamp
+// @Route    PUT /api/v1/bootcamps/:id/photo
+// @Access   Private
+exports.bootcampPhotoUpload = async (req, res, next) => {
+  try {
+    const bootcamp = await Bootcamp.findById(req.params.id);
+
+    //check if bootcamp exits
+    if (!bootcamp) {
+      return res.status(400).send({ success: false });
+    }
+
+    //check if a file was uploaded
+    if (!req.files) {
+      console.log("no photo");
+      return next(new ErrorResponse("No photo uploaded", 400));
+    }
+
+    const file = req.files.file;
+
+    //validate that image is a photo
+    if (!file.mimetype.startsWith("image")) {
+      return next(new ErrorResponse("Invalid photo format", 400));
+    }
+
+    res.status(200).send("Photo uploaded");
   } catch (err) {
     next(err);
   }
