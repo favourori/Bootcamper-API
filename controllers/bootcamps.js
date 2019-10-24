@@ -166,6 +166,9 @@ exports.bootcampPhotoUpload = async (req, res, next) => {
       return next(new ErrorResponse("Invalid photo format", 400));
     }
 
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+      return next(new ErrorResponse("can't upload files larger than 1mb", 400));
+    }
     res.status(200).send("Photo uploaded");
   } catch (err) {
     next(err);

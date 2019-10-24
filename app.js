@@ -5,14 +5,14 @@ const morgan = require("morgan");
 const colors = require("colors");
 const bodyParser = require("body-parser");
 const errorHandler = require("./middleware/error");
-const fileupload = require('express-fileupload')
+const fileupload = require("express-fileupload");
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use(fileupload())
+app.use(fileupload());
 
 //load env
 dotenv.config({ path: "./config/config.env" });
@@ -29,10 +29,12 @@ if (process.env.NODE_ENV === "development") {
 //import Routes
 const bootcampsRoutes = require("./routes/bootcamps");
 const courseRoutes = require("./routes/courses");
+const authRoutes = require("./routes/auth");
 
 //Mount routes
 app.use("/api/v1/bootcamps", bootcampsRoutes);
 app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/auth", authRoutes);
 //error middleware
 app.use(errorHandler);
 
